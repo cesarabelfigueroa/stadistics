@@ -6,7 +6,7 @@ class DataCapture:
     
     def add(self, value):
         self.data.append(value)
-        
+
         if value not in self.count_less:
             self.count_less[value] = 0
         self.count_less[value] += 1
@@ -14,3 +14,8 @@ class DataCapture:
         if value not in self.count_greater:
             self.count_greater[value] = 0
         self.count_greater[value] += 1
+    
+    def less(self, value):
+        if value not in self.count_less:
+            return 0
+        return self.count_less[value]
