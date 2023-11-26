@@ -19,3 +19,15 @@ class DataCapture:
         if value not in self.count_less:
             return 0
         return self.count_less[value]
+
+    def greater(self, value):
+        if value not in self.count_greater:
+            return 0
+        return self.count_greater[value]
+
+    def between(self, lower, upper):
+        count = 0
+        for value in self.data:
+            if lower <= value <= upper:
+                count += 1
+        return count
