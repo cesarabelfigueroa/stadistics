@@ -1,4 +1,4 @@
-from typing import List, Optional
+from typing import List
 
 class DataCapture:
     """
@@ -19,12 +19,11 @@ class DataCapture:
             value (int): The value to be added.
 
         Raises:
-            ValueError: If the input value is not within the range [0, 999].
+            ValueError: If the input value is not an integer or is not within the range [0, 999].
         """
-        if 0 <= value < 1000:
-            self.data[value] += 1
-        else:
-            raise ValueError("Input value must be within the range [0, 999].")
+        if not isinstance(value, int) or not (0 <= value < 1000):
+            raise ValueError("Input value must be an integer within the range [0, 999].")
+        self.data[value] += 1
 
     def build_stats(self) -> 'DataCapture':
         """
@@ -35,15 +34,9 @@ class DataCapture:
         """
         total_count = 0
         self.less_than: List[int] = [0] * 1000
-        self.greater_than: List[int] = [0] * 1000
 
         for i in range(1000):
             self.less_than[i] = total_count
-            total_count += self.data[i]
-
-        total_count = 0
-        for i in reversed(range(1000)):
-            self.greater_than[i] = total_count
             total_count += self.data[i]
 
         return self
@@ -57,11 +50,13 @@ class DataCapture:
 
         Returns:
             int: The cumulative count.
+
+        Raises:
+            ValueError: If the input value is not an integer or is not within the range [0, 999].
         """
-        if 0 <= value < 1000:
-            return self.less_than[value]
-        else:
-            return 0
+        if not isinstance(value, int) or not (0 <= value < 1000):
+            raise ValueError("Input value must be an integer within the range [0, 999].")
+        return self.less_than[value]
 
     def greater(self, value: int) -> int:
         """
@@ -72,11 +67,13 @@ class DataCapture:
 
         Returns:
             int: The cumulative count.
+
+        Raises:
+            ValueError: If the input value is not an integer or is not within the range [0, 999].
         """
-        if 0 <= value < 1000:
-            return self.greater_than[value]
-        else:
-            return 0
+        if not isinstance(value, int) or not (0 <= value < 1000):
+            raise ValueError("Input value must be an integer within the range [0, 999].")
+        return self.greater_than[value]
 
     def between(self, start: int, end: int) -> int:
         """
@@ -88,8 +85,14 @@ class DataCapture:
 
         Returns:
             int: The count of values within the specified range.
+
+        Raises:
+            ValueError: If the input values are not integers or are not within the range [0, 999].
         """
-        if 0 <= start <= end < 1000:
-            return self.less_than[end + 1] - self.less_than[start]
-        else:
-            return 0
+        if (
+            not isinstance(start, int) or
+            not isinstance(end, int) or
+            not (0 <= start <= end < 1000)
+        ):
+            raise ValueError("Input values must be integers within the range [0, 999].")
+        return self.less_than[end + 1] - self.less_than[start]
