@@ -25,19 +25,24 @@ class DataCapture:
             raise ValueError("Input value must be an integer within the range [0, 999].")
         self.data[value] += 1
 
-    def build_stats(self) -> 'DataCapture':
+    def build_stats(self):
         """
-        Build cumulative statistics for the data.
+        Calculate cumulative statistics (less_than and greater_than) for the given data.
 
         Returns:
-            DataCapture: The DataCapture instance for method chaining.
+            self: The current instance with updated statistics.
         """
-        total_count = 0
-        self.less_than: List[int] = [0] * 1000
+        total_count_forward = 0
+        total_count_backward = 0
+        self.less_than = [0] * 1000
+        self.greater_than = [0] * 1000
 
         for i in range(1000):
-            self.less_than[i] = total_count
-            total_count += self.data[i]
+            self.less_than[i] = total_count_forward
+            self.greater_than[999 - i] = total_count_backward
+
+            total_count_forward += self.data[i]
+            total_count_backward += self.data[999 - i]
 
         return self
 
