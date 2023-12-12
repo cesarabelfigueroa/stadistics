@@ -10,6 +10,8 @@ class DataCapture:
         Initializes a DataCapture instance with an empty data list.
         """
         self.data: List[int] = [0] * 1000  # Assuming all values are less than 1000
+        self.less_than = [0] * 1000
+        self.greater_than = [0] * 1000
 
     def add(self, value: int) -> None:
         """
